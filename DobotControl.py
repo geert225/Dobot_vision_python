@@ -1,4 +1,33 @@
+from pickle import TRUE
+from numpy import dtype
 import DobotDllType as dType
+
+compoort = "COM6"
+
+def setup():
+    dType.SetQueuedCmdClear(api)
+    dType.SetHOMEParams(api, 200, 200, 200, 200, isQueued = 1)
+    dType.SetPTPJointParams(api, 200, 200, 200, 200, 200, 200, 200, 200, isQueued = 1)
+    dType.SetPTPCommonParams(api, 100, 100, isQueued = 1)
+
+def Loop():
+    print("loop")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 CON_STR = {
     dType.DobotConnect.DobotConnect_NoError:  "DobotConnect_NoError",
@@ -6,23 +35,22 @@ CON_STR = {
     dType.DobotConnect.DobotConnect_Occupied: "DobotConnect_Occupied"}
 
 api = dType.load()
-state = dType.ConnectDobot(api, "", 115200)[0]
+state = dType.ConnectDobot(api, compoort, 115200)[0]
 
 
 if (state == dType.DobotConnect.DobotConnect_NoError):
     
     
     
-    dType.SetQueuedCmdClear(api)
     
+    
+    setup()
+    while TRUE:
+        Loop()
     
     #patameters 
-    dType.SetHOMEParams(api, 200, 200, 200, 200, isQueued = 1)
-    dType.SetPTPJointParams(api, 200, 200, 200, 200, 200, 200, 200, 200, isQueued = 1)
-    dType.SetPTPCommonParams(api, 100, 100, isQueued = 1)
+    
 
-    
-    
 
     
     dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, 60, 20, 0, isQueued = 1)[0]
@@ -36,3 +64,5 @@ if (state == dType.DobotConnect.DobotConnect_NoError):
 
 
 dType.DisconnectDobot(api)
+
+
