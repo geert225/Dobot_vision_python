@@ -44,7 +44,7 @@ upper_B_yellow = 165
 lower_B_yellow = 135
 
 
-cam = cv.VideoCapture(1)
+cam = cv.VideoCapture(0)
 
 
 cam.set(3, 640)
@@ -55,7 +55,7 @@ while 1:
         imgGrey = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
         imgcopy = img.copy()
 
-        _, thrash = cv.threshold(imgGrey, 230, 255, cv.THRESH_BINARY)
+        _, thrash = cv.threshold(imgGrey, 175, 255, cv.THRESH_BINARY)
         contours, _ = cv.findContours(thrash, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
         if True:
             
@@ -126,7 +126,7 @@ while 1:
             cv.imshow("normal img", img)
             cv.imshow("vision", imgcopy)
             cv.imshow("grey", thrash)
-            cv.waitKey(2000)
+            cv.waitKey(500)
 
 cv.waitKey(1000)
 cv.destroyAllWindows()  
