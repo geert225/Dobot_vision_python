@@ -1,6 +1,8 @@
 from pickle import TRUE
 from numpy import dtype
 import DobotDllType as dType
+import cv2 as cv
+from array import *
 
 compoort = "COM6"
 
@@ -12,9 +14,39 @@ def setup():
 
 def Loop():
     print("loop")
+    idx = camararoutine()
+
+    idx = pickroutine(x, y)
+    waituntildone(idx)
 
 
+def pickroutine():
+    idx = dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, 60, 20, 0, isQueued = 1)[0]
+    idx = dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, -60, 20, 0, isQueued = 1)[0]
+    idx = dType.SetWAITCmd(api, 1000, isQueued=1)
+    idx = dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, 60, 20, 0, isQueued = 1)[0]
+    idx = dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, -60, 20, 0, isQueued = 1)[0]
+    return idx
 
+def camararoutine():
+    idx = dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, 60, 20, 0, isQueued = 1)[0]
+    idx = dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, -60, 20, 0, isQueued = 1)[0]
+    idx = dType.SetWAITCmd(api, 1000, isQueued=1)
+    idx = dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, 60, 20, 0, isQueued = 1)[0]
+    idx = dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, -60, 20, 0, isQueued = 1)[0]
+    return idx
+
+def placeroutine():
+    idx = dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, 60, 20, 0, isQueued = 1)[0]
+    idx = dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, -60, 20, 0, isQueued = 1)[0]
+    idx = dType.SetWAITCmd(api, 1000, isQueued=1)
+    idx = dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, 60, 20, 0, isQueued = 1)[0]
+    idx = dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, -60, 20, 0, isQueued = 1)[0]
+    return idx
+
+def waituntildone(idx):
+    while idx > dType.GetQueuedCmdCurrentIndex(api)[0]:
+        dType.dSleep(100)
 
 
 
@@ -55,7 +87,7 @@ if (state == dType.DobotConnect.DobotConnect_NoError):
     
     dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, 60, 20, 0, isQueued = 1)[0]
     dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, -60, 20, 0, isQueued = 1)[0]
-    dType.SetWAITCmd(api, 1000, isQueued=0)
+    dType.SetWAITCmd(api, 1000, isQueued=1)
     dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, 60, 20, 0, isQueued = 1)[0]
     lastidx = dType.SetPTPCmd(api, dType.PTPMode.PTPMOVLXYZMode, 240, -60, 20, 0, isQueued = 1)[0]
     
